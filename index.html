@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Iterative Refinement Improves Compositional Image Generation</title>
 
+
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
@@ -130,6 +131,17 @@
   </div>
 </div>
 
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline controls style="width: 100%; height: auto;">
+        <source src="./static/images/iter_gen_vid.mp4" type="video/mp4">
+      </video>
+      
+    </div>
+  </div>
+</section>
+
 <section class="hero is-light is-small">
   <div class="hero-body">
     <div class="container">
@@ -146,7 +158,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Text-to-image (T2I) models have achieved remarkable progress, yet they continue to struggle with complex prompts that require simultaneously handling multiple objects, relations, and attributes. Existing inference-time strategies, such as parallel sampling with verifiers or simply increasing denoising steps, can improve prompt alignment but remain inadequate for richly compositional settings where many constraints must be satisfied. Inspired by the success of chain-of-thought reasoning in large language models, we propose an iterative test-time strategy in which a T2I model progressively refines its generations across multiple steps, guided by feedback from a vision-language model as the critic in the loop. Our approach is simple, requires no external tools or priors, and can be flexibly applied to a wide range of image generators and vision-language models. Empirically, we demonstrate consistent gains on image generation across benchmarks: a 16.9% improvement in all-correct rate on ConceptMix (k=7) and a 13.8% improvement on T2I-CompBench (3D-Spatial category) compared to compute-matched parallel sampling. Beyond quantitative gains, iterative refinement produces more faithful generations by decomposing complex prompts into sequential corrections, with human evaluators preferring our method 58.7% of the time over 41.3% for the parallel baseline. Together, these findings highlight iterative self-correction as a broadly applicable principle for compositional image generation.
+            Text-to-image (T2I) models have achieved remarkable progress, yet they continue to struggle with complex prompts that require simultaneously handling multiple objects, relations, and attributes. Existing inference-time strategies, such as parallel sampling with verifiers or simply increasing denoising steps, can improve prompt alignment but remain inadequate for richly compositional settings where many constraints must be satisfied. Inspired by the success of chain-of-thought reasoning in large language models, we propose an iterative test-time strategy in which a T2I model progressively refines its generations across multiple steps, guided by feedback from a vision-language model as the critic in the loop. Our approach is simple, requires no external tools or priors, and can be flexibly applied to a wide range of image generators and vision-language models. Empirically, we demonstrate consistent gains on image generation across benchmarks: a 16.9% improvement in all-correct rate on ConceptMix (k=7), a 13.8% improvement on T2I-CompBench (3D-Spatial category) and a 12.5% improvement on Visual Jenga scene decomposition compared to compute-matched parallel sampling. Beyond quantitative gains, iterative refinement produces more faithful generations by decomposing complex prompts into sequential corrections, with human evaluators preferring our method 58.7% of the time over 41.3% for the parallel baseline. Together, these findings highlight iterative self-correction as a broadly applicable principle for compositional image generation.
           </p>
         </div>
       </div>
@@ -271,17 +283,17 @@
             <div class="content has-text-centered">
               <img src="./static/images/comparison_parallel_iterative.png" alt="ConceptMix Results" style="max-width: 100%; height: auto;">
               <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
-                Performance gains on ConceptMix benchmark across different binding complexities.
+                Breakdown of performances across different ConceptMix categories.
               </p>
             </div>
           </div>
 
           <div class="column is-6">
-            <h4 class="title is-5">Compute Allocation</h4>
+            <h4 class="title is-5">Iterative vs Parallel Compute Allocation</h4>
             <div class="content has-text-centered">
               <img src="./static/images/conceptmix_budget_same_symbols.png" alt="Comparison of iterative and parallel compute allocations" style="max-width: 100%; height: auto;">
               <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
-                Comparison of iterative and parallel compute allocations. Given a budget of $B=16$, mixed allocations of 8 iterative with 2 parallel generally outperform purely parallel or purely iterative strategies.
+                Comparison of iterative and parallel compute allocations. Given a test-time budget of 16 steps, higher iterative allocations (e.g. 8 iterative with 2 parallel) outperform purely parallel sampling or purely iterative refinement strategies.
               </p>
             </div>
           </div>
@@ -366,7 +378,7 @@
 
         <!-- Failure Case 1 -->
         <div class="box has-background-light mb-5">
-          <h4 class="title is-5">Failure Case 1: Imperfect Editor</h4>
+          <h4 class="title is-5">Failure Case 1: Imperfect Critic</h4>
           <p class="subtitle is-6">
             <strong>Prompt:</strong> "The image features a heart-shaped giraffe, a tiny pink screwdriver, and a huge robot. The screwdriver is positioned at the bottom of the robot, touching it."
           </p>
@@ -377,7 +389,7 @@
                 <img src="./static/assets/4/ours.png" alt="Final Result" style="object-fit: contain;">
               </figure>
               <p class="is-size-7"><strong>Our Result</strong></p>
-              <p class="is-size-7 has-text-danger">Giraffe not exactly heart-shaped.</p>
+              <p class="is-size-7 has-text-danger">Giraffe not exactly heart-shaped (and was not detected by the critic).</p>
             </div>
 
             <!-- Scrollable Trace -->
@@ -458,7 +470,7 @@
                 <img src="./static/assets/5/ours.png" alt="Final Result" style="object-fit: contain;">
               </figure>
               <p class="is-size-7"><strong>Our Result</strong></p>
-              <p class="is-size-7 has-text-danger">Carrots not directly in front of pine.</p>
+              <p class="is-size-7 has-text-danger">Carrots not placed directly in front of pine by editor (and was not detected by the critic).</p>
             </div>
 
             <!-- Scrollable Trace -->
@@ -527,7 +539,7 @@
          href="./static/videos/nerfies_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="./" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div> -->
